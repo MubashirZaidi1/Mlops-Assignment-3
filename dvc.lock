@@ -1,0 +1,49 @@
+schema: '2.0'
+stages:
+  fetch_data:
+    cmd: bash -c '"/home/mubashir/Desktop/Assignment 3/weather_pipeline/venv/bin/python3.10"
+      scripts/fetch_data.py'
+    deps:
+    - path: scripts/fetch_data.py
+      hash: md5
+      md5: f454daaeb62875a3af25a161cb539495
+      size: 837
+    outs:
+    - path: data/raw_data.csv
+      hash: md5
+      md5: d3d20776fd9868f3ed2379988a28581e
+      size: 110
+  preprocess_data:
+    cmd: bash -c '"/home/mubashir/Desktop/Assignment 3/weather_pipeline/venv/bin/python3.10"
+      scripts/preprocess_data.py'
+    deps:
+    - path: data/raw_data.csv
+      hash: md5
+      md5: d3d20776fd9868f3ed2379988a28581e
+      size: 110
+    - path: scripts/preprocess_data.py
+      hash: md5
+      md5: 3569b78061e0452e76ca01a35ec214f5
+      size: 325
+    outs:
+    - path: data/processed_data.csv
+      hash: md5
+      md5: 1b081cf2352bb52b8446252c254cedb4
+      size: 108
+  train_model:
+    cmd: bash -c '"/home/mubashir/Desktop/Assignment 3/weather_pipeline/venv/bin/python3.10"
+      scripts/train_model.py'
+    deps:
+    - path: data/processed_data.csv
+      hash: md5
+      md5: 1b081cf2352bb52b8446252c254cedb4
+      size: 108
+    - path: scripts/train_model.py
+      hash: md5
+      md5: f70634534fe8dca3b61905603d9ebe92
+      size: 299
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 9c2c3dda2fce65ca5c4906de3cdae467
+      size: 539
